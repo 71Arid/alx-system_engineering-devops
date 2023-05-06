@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Active Internet connections (only servers)"
+
+# Loop through all listening sockets and extract the PID and name of the program to which each socket belongs
+for line in $(sudo netstat -tuln | grep LISTEN); do
+    protocol=$(echo "$line" | awk '{print $1}')
+    local_address=$(echo "$line" | awk '{print $4}')
+    pid=$(echo "$line" | awk '{print $7}' | cut -d '/' -f 1)
+    program=$(sudo lsof -p "$pid" | awk '{print $1}' | tail -1)
+    echo "Protocol: $protocol, Local Address: $local_address, PID: $pid, Program: $program"
+done
