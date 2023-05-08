@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# only shows listening sockets
 
 netstat -tlnp | awk 'NR>2 {print $1, $4, $7}' | while read proto local foreign pid_program
 do
