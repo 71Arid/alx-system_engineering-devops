@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # changes home ip address
 
-# Get the container ID of the running Docker container
-CONTAINER_ID=$(docker ps -q)
+echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts > /dev/null
+echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
 
-# Update the hosts file inside the Docker container
-docker exec -it $CONTAINER_ID bash -c "echo '127.0.0.2 localhost' >> /etc/hosts"
-docker exec -it $CONTAINER_ID bash -c "echo '8.8.8.8 facebook.com' >> /etc/hosts"
+sudo service networking restart
 
-# Restart the networking service inside the Docker container
-docker exec -it $CONTAINER_ID bash -c "service networking restart"
+if [ -f "/.dockerenv" ]; then
+sudo service docker restart
+fi
