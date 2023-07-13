@@ -2,7 +2,7 @@
 # capture directory contents
 for file in *
 do
-  if [[ ! $file =~ ^\..* && $file =~ ^[^-]*-(.*) ]]
+  if [[ ! $file =~ ^\..* && $file =~ ^[^-]*-(.*)$ ]]
   then
     echo "${BASH_REMATCH[1]}"
   fi
