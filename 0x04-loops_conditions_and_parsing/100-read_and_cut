@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Script to display user information from /etc/passwd
 
 file="/etc/passwd"
