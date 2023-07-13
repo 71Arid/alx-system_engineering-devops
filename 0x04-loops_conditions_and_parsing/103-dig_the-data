@@ -2,4 +2,4 @@
 # sort apache log file
 log_file="apache-access.log"
 
-awk '{ count[$1" "$9]++ } END { for (key in count) print count[key], key }' "$log_file" | sort -rn
+awk '{count[$1" "$9]++} END { for (key in count) print count[key], key }' "$log_file" | sort -rn
