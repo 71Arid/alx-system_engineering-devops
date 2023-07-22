@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# script installs server that listens on port 80
+# and serves default page index.html
+
+sudo apt-get update -y
+sudo apt-get install nginx -y
+sudo apt-get upgrade -y
+
+echo 'Hello World!' > /var/www/html/index.html
+
+sudo service nginx restart
