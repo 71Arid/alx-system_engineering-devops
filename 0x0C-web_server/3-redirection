@@ -4,6 +4,6 @@
 
 ./1-install_nginx_web_server
 
-url_red = "\\\n\tlocation = /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
+url_red="\\\n\tlocation = /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
 sudo sed -i "53i $url_red" /etc/nginx/sites-available/default
 sudo service nginx restart
