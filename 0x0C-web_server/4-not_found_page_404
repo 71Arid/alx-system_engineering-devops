@@ -8,14 +8,10 @@ sudo apt-get install nginx -y
 echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 
-# Search for a line containing 'server_name' and replace it with the new server_name and the redirection configuration
-sudo sed -i '/server_name / {s|server_name |server_name _;\n\trewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n\n|}' /etc/nginx/sites-available/default
+url_red="\\\n\tlocation = /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
+sudo sed -i "53i $url_red" /etc/nginx/sites-available/default
 
-# Search for a line containing 'server_name' and replace it with the new server_name and the custom error handling configuration
-sudo sed -i '/server_name / {s|server_name |server_name _;\n\terror_page 404 /404.html;\n\n|}' /etc/nginx/sites-available/default
+url_red="\\\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\tinternal;\n\t}\n"
+sudo sed -i "58i $url_red" /etc/nginx/sites-available/default
 
-# Search for a line containing 'location / {' and replace it with the custom error handling configuration for 404.html
-sudo sed -i '/location \/ {/ {n; s|.*|location = /404.html {\n\tinternal;\n}\n\n|}}' /etc/nginx/sites-available/default
-
-# Restart Nginx to apply the changes
 sudo service nginx restart
