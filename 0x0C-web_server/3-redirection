@@ -1,32 +1,14 @@
 #!/usr/bin/env bash
-# Install Nginx
-sudo apt update
-sudo apt install nginx -y
-# Define the URL to redirect to
-REDIRECT_URL="https://www.youtube.com/watch?v=QH2-TGUlwu4"
+# script /redirect_me redirects to another page
+# redirection 301 Permanently moved
 
-# Create a new configuration file for the redirection
-sudo bash -c 'cat <<EOF > /etc/nginx/sites-available/redirect_me
-server {
-    listen 80;
-    server_name _;
-    location / {
-        try_files $uri $uri/ = 301;
-    }
-    location /redirect_me {
-        return 301 '"$REDIRECT_URL"';
-    }
-}
-EOF'
+sudo apt-get update -y
 
-# Remove the default symlink from sites-enabled (if exists)
-sudo rm -f /etc/nginx/sites-enabled/default
+sudo apt-get install nginx -y
 
-# Use sed to create a symlink to enable the redirection configuration
-sudo sed -i 's|#\?include /etc/nginx/sites-available/redirect_me;|include /etc/nginx/sites-available/redirect_me;|' /etc/nginx/nginx.conf
+echo "Hello World!" > /var/www/html/index.html
 
-# Test the Nginx configuration to check for syntax errors
-sudo nginx -t
+url_red="\\\n\tlocation = /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
 
-# Restart Nginx to apply the changes
+sudo sed -i "53i $url_red" /etc/nginx/sites-available/default
 sudo service nginx restart
